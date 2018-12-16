@@ -1,0 +1,30 @@
+# Oauth2 Example SpringBoot
+
+## Instruções:
+Para subir a aplicação é preciso criar uma imagem a partir de um .dockerfile e subir um container mysql para o banco de dados.
+ - docker build -f mysqlOauth2Db.dockerfile -t tjds/mysqldb-oauth2-ex .
+ - docker run -d -p 3318:3306 --name oauth2-ex tjds/mysqldb-oauth2-ex
+
+## End-points:
+
+### Receber tokens:
+ 1. Fazer POST em localhost:8085/oauth/token
+ 2. No header da requisição passar:
+    > Authorization: Basic {basicToken}
+ 3. No body (x-www-form-url-encode):
+    > grant_type: password
+    > username: thales
+    > password: 1234
+
+### Realizar refresh token:
+ 1. Fazer POST em localhost:8085/oauth/token
+ 2. No header da requisição:
+    > Authorization: Basic {basicToken}
+ 3. No body:
+    > "grant_type": "refresh_token"
+    > "refresh_token": {refreshToken}
+
+### Testar token recebido:
+ 1. Fazer GET em localhost:8085/show-rogerin
+ 2. No header da requisição:
+    > Authorization: Bearer {accessToken}
